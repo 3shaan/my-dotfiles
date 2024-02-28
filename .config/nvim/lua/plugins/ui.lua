@@ -10,26 +10,9 @@ return {
 				},
 				opts = { skip = true },
 			})
-			local focused = true
-		--	vim.api.nvim_create_autocmd("FocusGained", {
-			--	callback = function()
-				--	focused = true
-				--end,
-			--})
-			--vim.api.nvim_create_autocmd("FocusLost", {
-			--	callback = function()
-				--	focused = false
-				--end,
-			--})
-			table.insert(opts.routes, 1, {
-				filter = {
-					cond = function()
-						return not focused
-					end,
-				},
-				view = "notify_send",
-				opts = { stop = false },
-			})
+			
+		
+		
 
 			opts.commands = {
 				all = {
@@ -102,7 +85,6 @@ return {
 	},
 
 
-
 	{
 		"folke/zen-mode.nvim",
 		cmd = "ZenMode",
@@ -116,5 +98,23 @@ return {
 		keys = { { "<leader>z", "<cmd>ZenMode<cr>", desc = "Zen Mode" } },
 	},
 
+	{
+		"nvimdev/dashboard-nvim",
+		event = "VimEnter",
+		opts = function(_, opts)
+			local logo = [[
+    $$$$$$$$\           $$\                           
+    $$  _____|          $$ |                          
+    $$ |       $$$$$$$\ $$$$$$$\   $$$$$$\  $$$$$$$\  
+    $$$$$\    $$  _____|$$  __$$\  \____$$\ $$  __$$\ 
+    $$  __|   \$$$$$$\  $$ |  $$ | $$$$$$$ |$$ |  $$ |
+    $$ |       \____$$\ $$ |  $$ |$$  __$$ |$$ |  $$ |
+    $$$$$$$$\ $$$$$$$  |$$ |  $$ |\$$$$$$$ |$$ |  $$ |
+  \________|\_______/ \__|  \__| \_______|\__|  \__|
+      ]]
 
+			logo = string.rep("\n", 8) .. logo .. "\n\n"
+			opts.config.header = vim.split(logo, "\n")
+		end,
+	},
 }
