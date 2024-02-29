@@ -7,8 +7,16 @@ end
 # List Directory
 alias l="ls -l"
 alias la="ls -a"
-alias lla="ls -la"
 alias lt="ls --tree"
+
+
+
+if type -q exa
+    alias ll "exa -l -g --icons"
+    alias lla "ll -a"
+end
+
+
 
 # Handy change dir shortcuts
 abbr .. 'cd ..'

@@ -1,55 +1,13 @@
 return {
-	{
-		enabled = false,
-		"folke/flash.nvim",
-		---@type Flash.Config
-		opts = {
-			search = {
-				forward = true,
-				multi_window = false,
-				wrap = false,
-				incremental = true,
-			},
-		},
-	},
-
+	-- Hihglight colors
 	{
 		"echasnovski/mini.hipatterns",
 		event = "BufReadPre",
-		opts = {
-			highlighters = {
-				hsl_color = {
-					pattern = "hsl%(%d+,? %d+%%?,? %d+%%?%)",
-					group = function(_, match)
-						local utils = require("tokyonight.hsluv")
-						--- @type string, string, string
-						local nh, ns, nl = match:match("hsl%((%d+),? (%d+)%%?,? (%d+)%%?%)")
-						--- @type number?, number?, number?
-						local h, s, l = tonumber(nh), tonumber(ns), tonumber(nl)
-						--- @type string
-						local hex_color = utils.hslToHex(h, s, l)
-						return MiniHipatterns.compute_hex_color_group(hex_color, "bg")
-					end,
-				},
-			},
-		},
+		opts = {},
 	},
-
-	{
-		"dinhhuy258/git.nvim",
-		event = "BufReadPre",
-		opts = {
-			keymaps = {
-				-- Open blame window
-				blame = "<Leader>gb",
-				-- Open file/folder in git repository
-				browse = "<Leader>go",
-			},
-		},
-	},
-
 	{
 		"telescope.nvim",
+		priority = 1000,
 		dependencies = {
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
@@ -58,15 +16,6 @@ return {
 			"nvim-telescope/telescope-file-browser.nvim",
 		},
 		keys = {
-			{
-				"<leader>fP",
-				function()
-					require("telescope.builtin").find_files({
-						cwd = require("lazy.core.config").options.root,
-					})
-				end,
-				desc = "Find Plugin File",
-			},
 			{
 				";f",
 				function()
@@ -82,9 +31,7 @@ return {
 				";r",
 				function()
 					local builtin = require("telescope.builtin")
-					builtin.live_grep({
-						additional_args = { "--hidden" },
-					})
+					builtin.live_grep()
 				end,
 				desc = "Search for a string in your current working directory and get results live as you type, respects .gitignore",
 			},
@@ -95,14 +42,6 @@ return {
 					builtin.buffers()
 				end,
 				desc = "Lists open buffers",
-			},
-			{
-				";t",
-				function()
-					local builtin = require("telescope.builtin")
-					builtin.help_tags()
-				end,
-				desc = "Lists available help tags and opens a new window with the relevant help info on <cr>",
 			},
 			{
 				";;",
@@ -186,9 +125,6 @@ return {
 							-- your custom normal mode mappings
 							["N"] = fb_actions.create,
 							["h"] = fb_actions.goto_parent_dir,
-							["/"] = function()
-								vim.cmd("startinsert")
-							end,
 							["<C-u>"] = function(prompt_bufnr)
 								for i = 1, 10 do
 									actions.move_selection_previous(prompt_bufnr)
@@ -199,8 +135,6 @@ return {
 									actions.move_selection_next(prompt_bufnr)
 								end
 							end,
-							["<PageUp>"] = actions.preview_scrolling_up,
-							["<PageDown>"] = actions.preview_scrolling_down,
 						},
 					},
 				},
